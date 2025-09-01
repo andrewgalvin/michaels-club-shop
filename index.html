@@ -1,362 +1,410 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Club Shop</title>
-  <!-- Tailwind via CDN for quick GitHub Pages setup -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Small, safe extras */
-    .line-clamp-2 { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .modal-open { overflow: hidden; }
-  </style>
-</head>
-<body class="bg-stone-50 text-stone-900">
-  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-stone-200">
-    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
-      <div class="size-9 rounded-xl bg-stone-900 text-white grid place-content-center font-bold">CS</div>
-      <h1 class="text-xl font-semibold">Club Shop</h1>
-      <span class="ml-auto text-xs text-stone-500">GitHub Pages ready</span>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Club Shop</title>
+    <!-- Tailwind via CDN for quick GitHub Pages setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Small, safe extras */
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .modal-open {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-stone-900">
+    <header
+      class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-stone-200"
+    >
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
+        <div
+          class="size-9 rounded-xl bg-stone-900 text-white grid place-content-center font-bold"
+        >
+          CS
+        </div>
+        <h1 class="text-xl font-semibold">Club Shop</h1>
+        <span class="ml-auto text-xs text-stone-500">GitHub Pages ready</span>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-6">
+      <!-- Controls -->
+      <section
+        class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm"
+      >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+          <div class="lg:col-span-2">
+            <label class="block text-xs font-medium mb-1">Search</label>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search clubs, brand, model…"
+              class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">Category</label>
+            <select
+              id="categorySelect"
+              class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400"
+            >
+              <option value="">All</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">Brand</label>
+            <select
+              id="brandSelect"
+              class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400"
+            >
+              <option value="">All</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">Condition</label>
+            <select
+              id="conditionSelect"
+              class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400"
+            >
+              <option value="">Any</option>
+              <option>New</option>
+              <option>Like New</option>
+              <option>Good</option>
+              <option>Fair</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium mb-1">Sort</label>
+            <select
+              id="sortSelect"
+              class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400"
+            >
+              <option value="priceAsc">Price: Low → High</option>
+              <option value="priceDesc">Price: High → Low</option>
+              <option value="nameAsc">Name: A → Z</option>
+              <option value="nameDesc">Name: Z → A</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+          <button
+            id="resetBtn"
+            class="px-3 py-1.5 rounded-lg border border-stone-300 hover:bg-stone-100"
+          >
+            Reset
+          </button>
+          <span id="stats" class="ml-auto text-stone-500"></span>
+        </div>
+      </section>
+
+      <!-- Grid -->
+      <section class="mt-6">
+        <div id="grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+      </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/60" data-close></div>
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div
+          class="relative w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-xl"
+        >
+          <button
+            class="absolute top-2 right-2 size-9 rounded-full bg-white/90 border border-stone-200 hover:bg-white"
+            data-close
+            aria-label="Close"
+          >
+            ✕
+          </button>
+          <div class="p-3 sm:p-4">
+            <div
+              id="modalImages"
+              class="aspect-video w-full bg-stone-100 grid place-content-center text-stone-400 text-sm rounded-xl overflow-hidden"
+            ></div>
+            <div id="modalCaption" class="mt-3 text-sm text-stone-600"></div>
+          </div>
+        </div>
+      </div>
     </div>
-  </header>
 
-  <main class="mx-auto max-w-6xl px-4 py-6">
-    <!-- Controls -->
-    <section class="bg-white border border-stone-200 rounded-2xl p-4 shadow-sm">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
-        <div class="lg:col-span-2">
-          <label class="block text-xs font-medium mb-1">Search</label>
-          <input id="searchInput" type="search" placeholder="Search clubs, brand, model…" class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400" />
-        </div>
-        <div>
-          <label class="block text-xs font-medium mb-1">Category</label>
-          <select id="categorySelect" class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400">
-            <option value="">All</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-medium mb-1">Brand</label>
-          <select id="brandSelect" class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400">
-            <option value="">All</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-medium mb-1">Condition</label>
-          <select id="conditionSelect" class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400">
-            <option value="">Any</option>
-            <option>New</option>
-            <option>Like New</option>
-            <option>Good</option>
-            <option>Fair</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs font-medium mb-1">Sort</label>
-          <select id="sortSelect" class="w-full rounded-xl border-stone-300 focus:ring-2 focus:ring-stone-400 focus:border-stone-400">
-            <option value="priceAsc">Price: Low → High</option>
-            <option value="priceDesc">Price: High → Low</option>
-            <option value="nameAsc">Name: A → Z</option>
-            <option value="nameDesc">Name: Z → A</option>
-          </select>
-        </div>
-      </div>
-      <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
-        <button id="resetBtn" class="px-3 py-1.5 rounded-lg border border-stone-300 hover:bg-stone-100">Reset</button>
-        <span id="stats" class="ml-auto text-stone-500"></span>
-      </div>
-    </section>
+    <script>
+      // --- Sample data (edit or replace with products.json) ---
+      // Each product supports up to 2 images (first is thumbnail).
+      const SAMPLE_PRODUCTS = [
+        {
+          id: 101,
+          title: "TaylorMade Stealth Driver 10.5°",
+          brand: "TaylorMade",
+          category: "Driver",
+          condition: "Like New",
+          price: 389.99,
+          images: [
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg",
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg"
+          ],
+          description: "Carbon face, mid-high launch, adjustable loft."
+        },
+        {
+          id: 102,
+          title: "Callaway Apex 7-Iron (2021)",
+          brand: "Callaway",
+          category: "Iron",
+          condition: "Good",
+          price: 79.00,
+          images: [
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg",
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg"
+          ],
+          description: "Forged feel, great distance and control."
+        },
+        {
+          id: 103,
+          title: "Titleist Vokey SM9 Wedge 56°",
+          brand: "Titleist",
+          category: "Wedge",
+          condition: "New",
+          price: 159.00,
+          images: [
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg",
+            "ihttps://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg"
+          ],
+          description: "Classic spin with versatile grind."
+        },
+        {
+          id: 104,
+          title: "Scotty Cameron Newport 2",
+          brand: "Titleist",
+          category: "Putter",
+          condition: "Like New",
+          price: 349.00,
+          images: [
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg",
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg"
+          ],
+          description: "Milled precision, soft feel."
+        },
+        {
+          id: 105,
+          title: "Ping G430 3-Wood",
+          brand: "Ping",
+          category: "Fairway Wood",
+          condition: "Good",
+          price: 249.00,
+          images: [
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg,
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg"
+          ],
+          description: "Forgiving, fast, adjustable."
+        },
+        {
+          id: 106,
+          title: "Cobra KING Utility Iron 3i",
+          brand: "Cobra",
+          category: "Utility",
+          condition: "Fair",
+          price: 119.00,
+          images: [
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg",
+            "https://www.golfdiscount.com/media/catalog/product/cache/9aac6a656a9b15b75e66f77cb3326501/p/i/ping-g430-irons-7i-hero-main-itempicture.jpg"
+          ],
+          description: "Hollow-body, hot face utility iron."
+        }
+      ];
 
-    <!-- Grid -->
-    <section class="mt-6">
-      <div id="grid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
-    </section>
-  </main>
+      // --- State ---
+      let PRODUCTS = [];
 
-  <!-- Modal -->
-  <div id="modal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/60" data-close></div>
-    <div class="absolute inset-0 flex items-center justify-center p-4">
-      <div class="relative w-full max-w-3xl bg-white rounded-2xl overflow-hidden shadow-xl">
-        <button class="absolute top-2 right-2 size-9 rounded-full bg-white/90 border border-stone-200 hover:bg-white" data-close aria-label="Close">✕</button>
-        <div class="p-3 sm:p-4">
-          <div id="modalImages" class="aspect-video w-full bg-stone-100 grid place-content-center text-stone-400 text-sm rounded-xl overflow-hidden"></div>
-          <div id="modalCaption" class="mt-3 text-sm text-stone-600"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // --- Sample data (edit or replace with products.json) ---
-    // Each product supports up to 2 images (first is thumbnail).
-    const SAMPLE_PRODUCTS = [
-      {
-        id: 101,
-        title: "TaylorMade Stealth Driver 10.5°",
-        brand: "TaylorMade",
-        category: "Driver",
-        condition: "Like New",
-        price: 389.99,
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b",
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b"
-        ],
-        description: "Carbon face, mid-high launch, adjustable loft."
-      },
-      {
-        id: 102,
-        title: "Callaway Apex 7-Iron (2021)",
-        brand: "Callaway",
-        category: "Iron",
-        condition: "Good",
-        price: 79.00,
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b",
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b"
-        ],
-        description: "Forged feel, great distance and control."
-      },
-      {
-        id: 103,
-        title: "Titleist Vokey SM9 Wedge 56°",
-        brand: "Titleist",
-        category: "Wedge",
-        condition: "New",
-        price: 159.00,
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b",
-          "ihttps://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b"
-        ],
-        description: "Classic spin with versatile grind."
-      },
-      {
-        id: 104,
-        title: "Scotty Cameron Newport 2",
-        brand: "Titleist",
-        category: "Putter",
-        condition: "Like New",
-        price: 349.00,
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b",
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b"
-        ],
-        description: "Milled precision, soft feel."
-      },
-      {
-        id: 105,
-        title: "Ping G430 3-Wood",
-        brand: "Ping",
-        category: "Fairway Wood",
-        condition: "Good",
-        price: 249.00,
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b,
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b"
-        ],
-        description: "Forgiving, fast, adjustable."
-      },
-      {
-        id: 106,
-        title: "Cobra KING Utility Iron 3i",
-        brand: "Cobra",
-        category: "Utility",
-        condition: "Fair",
-        price: 119.00,
-        images: [
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b",
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.globalgolf.com%2Fdynamic%2F1056467%2Faaf%2Fsole-view%2Fping-g425-hybrid.jpg%3Fs%3D1240&f=1&nofb=1&ipt=8e58dd08e29b8d6934387b7b6be657cd4d8e3c414225a3fc9d45b616797b992b"
-        ],
-        description: "Hollow-body, hot face utility iron."
-      }
-    ];
-
-    // --- State ---
-    let PRODUCTS = [];
-
-    const els = {
-      grid: document.getElementById('grid'),
-      stats: document.getElementById('stats'),
-      search: document.getElementById('searchInput'),
-      category: document.getElementById('categorySelect'),
-      brand: document.getElementById('brandSelect'),
-      condition: document.getElementById('conditionSelect'),
-      sort: document.getElementById('sortSelect'),
-      resetBtn: document.getElementById('resetBtn'),
-      modal: document.getElementById('modal'),
-      modalImages: document.getElementById('modalImages'),
-      modalCaption: document.getElementById('modalCaption'),
-    };
-
-    // Load products: try products.json, else fall back to SAMPLE_PRODUCTS
-    async function loadProducts() {
-      try {
-        const res = await fetch('products.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error('No products.json');
-        const json = await res.json();
-        if (!Array.isArray(json)) throw new Error('products.json must be an array');
-        PRODUCTS = json;
-      } catch (e) {
-        PRODUCTS = SAMPLE_PRODUCTS;
-      }
-      buildFacets(PRODUCTS);
-      applyFromURL();
-      render();
-    }
-
-    function buildFacets(items) {
-      const cats = Array.from(new Set(items.map(p => p.category).filter(Boolean))).sort();
-      const brands = Array.from(new Set(items.map(p => p.brand).filter(Boolean))).sort();
-      for (const c of cats) {
-        const o = document.createElement('option'); o.value = c; o.textContent = c; els.category.appendChild(o);
-      }
-      for (const b of brands) {
-        const o = document.createElement('option'); o.value = b; o.textContent = b; els.brand.appendChild(o);
-      }
-    }
-
-    function getFilters() {
-      return {
-        q: els.search.value.trim().toLowerCase(),
-        category: els.category.value,
-        brand: els.brand.value,
-        condition: els.condition.value,
-        sort: els.sort.value,
+      const els = {
+        grid: document.getElementById('grid'),
+        stats: document.getElementById('stats'),
+        search: document.getElementById('searchInput'),
+        category: document.getElementById('categorySelect'),
+        brand: document.getElementById('brandSelect'),
+        condition: document.getElementById('conditionSelect'),
+        sort: document.getElementById('sortSelect'),
+        resetBtn: document.getElementById('resetBtn'),
+        modal: document.getElementById('modal'),
+        modalImages: document.getElementById('modalImages'),
+        modalCaption: document.getElementById('modalCaption'),
       };
-    }
 
-    function setFilters(state) {
-      els.search.value = state.q ?? '';
-      els.category.value = state.category ?? '';
-      els.brand.value = state.brand ?? '';
-      els.condition.value = state.condition ?? '';
-      els.sort.value = state.sort ?? 'priceAsc';
-    }
-
-    function saveToURL() {
-      const f = getFilters();
-      const params = new URLSearchParams();
-      if (f.q) params.set('q', f.q);
-      if (f.category) params.set('cat', f.category);
-      if (f.brand) params.set('brand', f.brand);
-      if (f.condition) params.set('cond', f.condition);
-      if (f.sort && f.sort !== 'priceAsc') params.set('sort', f.sort);
-      const newHash = params.toString();
-      history.replaceState(null, '', newHash ? '#' + newHash : location.pathname + location.search);
-    }
-
-    function applyFromURL() {
-      const hash = location.hash.startsWith('#') ? location.hash.slice(1) : '';
-      const params = new URLSearchParams(hash);
-      setFilters({
-        q: params.get('q') || '',
-        category: params.get('cat') || '',
-        brand: params.get('brand') || '',
-        condition: params.get('cond') || '',
-        sort: params.get('sort') || 'priceAsc',
-      });
-    }
-
-    function filterAndSort(items) {
-      const f = getFilters();
-      let out = items.filter(p => {
-        const term = f.q;
-        const matchesTerm = !term || [p.title, p.brand, p.category].some(x => (x||'').toLowerCase().includes(term));
-        const matchesCat = !f.category || p.category === f.category;
-        const matchesBrand = !f.brand || p.brand === f.brand;
-        const matchesCond = !f.condition || p.condition === f.condition;
-        return matchesTerm && matchesCat && matchesBrand && matchesCond;
-      });
-      switch (f.sort) {
-        case 'priceAsc': out.sort((a,b)=>a.price-b.price); break;
-        case 'priceDesc': out.sort((a,b)=>b.price-a.price); break;
-        case 'nameAsc': out.sort((a,b)=>a.title.localeCompare(b.title)); break;
-        case 'nameDesc': out.sort((a,b)=>b.title.localeCompare(a.title)); break;
+      // Load products: try products.json, else fall back to SAMPLE_PRODUCTS
+      async function loadProducts() {
+        try {
+          const res = await fetch('products.json', { cache: 'no-store' });
+          if (!res.ok) throw new Error('No products.json');
+          const json = await res.json();
+          if (!Array.isArray(json)) throw new Error('products.json must be an array');
+          PRODUCTS = json;
+        } catch (e) {
+          PRODUCTS = SAMPLE_PRODUCTS;
+        }
+        buildFacets(PRODUCTS);
+        applyFromURL();
+        render();
       }
-      return out;
-    }
 
-    function render() {
-      const filtered = filterAndSort(PRODUCTS);
-      saveToURL();
-      els.stats.textContent = `${filtered.length} item${filtered.length===1?'':'s'} shown`;
-      els.grid.innerHTML = '';
-      for (const p of filtered) {
-        els.grid.appendChild(renderCard(p));
-      }
-    }
-
-    function renderCard(p) {
-      const img = (p.images && p.images[0]) ? p.images[0] : 'https://placehold.co/600x400?text=No+Image';
-      const count = (p.images||[]).slice(0,2).length;
-      const el = document.createElement('article');
-      el.className = 'bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm flex flex-col';
-      el.innerHTML = `
-        <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
-          <img src="${img}" alt="${escapeHtml(p.title)}" class="w-full h-full object-cover" loading="lazy"/>
-        </div>
-        <div class="p-4 flex-1 flex flex-col gap-2">
-          <h3 class="font-semibold leading-snug line-clamp-2">${escapeHtml(p.title)}</h3>
-          <div class="text-sm text-stone-600">${escapeHtml(p.brand || '')} • ${escapeHtml(p.category || '')}</div>
-          <div class="mt-auto flex items-center justify-between">
-            <div class="text-lg font-bold">$${p.price.toFixed(2)}</div>
-            <span class="text-xs px-2 py-1 rounded-full border border-stone-300">${escapeHtml(p.condition || '—')}</span>
-          </div>
-          <div class="flex gap-2 mt-2">
-            <button class="px-3 py-1.5 rounded-lg border border-stone-300 hover:bg-stone-100" data-photos>Photos (${count})</button>
-            <a class="px-3 py-1.5 rounded-lg bg-stone-900 text-white hover:bg-stone-800" href="#" aria-label="Buy ${escapeHtml(p.title)}">Buy</a>
-          </div>
-        </div>`;
-
-      const btn = el.querySelector('[data-photos]');
-      btn.addEventListener('click', () => openModal(p));
-      el.querySelector('img').addEventListener('click', () => openModal(p));
-      return el;
-    }
-
-    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
-
-    function openModal(product) {
-      document.body.classList.add('modal-open');
-      els.modal.classList.remove('hidden');
-      const imgs = (product.images || []).slice(0,2);
-      if (!imgs.length) {
-        els.modalImages.innerHTML = '<div class="p-6 text-center">No images</div>';
-      } else {
-        els.modalImages.innerHTML = `
-          <div class="relative w-full h-full">
-            <div class="w-full h-full"><img id="modalImg" src="${imgs[0]}" alt="${escapeHtml(product.title)}" class="w-full h-full object-contain"/></div>
-            ${imgs.length>1 ? '<button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/90 border border-stone-200">Next</button>' : ''}
-          </div>`;
-        if (imgs.length>1) {
-          let idx = 0;
-          const imgEl = document.getElementById('modalImg');
-          const nextBtn = document.getElementById('nextBtn');
-          nextBtn.addEventListener('click', () => { idx = (idx+1)%imgs.length; imgEl.src = imgs[idx]; nextBtn.textContent = (idx === imgs.length-1) ? 'First' : 'Next'; });
+      function buildFacets(items) {
+        const cats = Array.from(new Set(items.map(p => p.category).filter(Boolean))).sort();
+        const brands = Array.from(new Set(items.map(p => p.brand).filter(Boolean))).sort();
+        for (const c of cats) {
+          const o = document.createElement('option'); o.value = c; o.textContent = c; els.category.appendChild(o);
+        }
+        for (const b of brands) {
+          const o = document.createElement('option'); o.value = b; o.textContent = b; els.brand.appendChild(o);
         }
       }
-      els.modalCaption.textContent = product.title;
-    }
 
-    function closeModal(){
-      els.modal.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-    }
+      function getFilters() {
+        return {
+          q: els.search.value.trim().toLowerCase(),
+          category: els.category.value,
+          brand: els.brand.value,
+          condition: els.condition.value,
+          sort: els.sort.value,
+        };
+      }
 
-    // Events
-    const debounced = (fn, ms=250) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); } };
-    els.search.addEventListener('input', debounced(render, 200));
-    els.category.addEventListener('change', render);
-    els.brand.addEventListener('change', render);
-    els.condition.addEventListener('change', render);
-    els.sort.addEventListener('change', render);
-    els.resetBtn.addEventListener('click', () => { setFilters({}); render(); });
+      function setFilters(state) {
+        els.search.value = state.q ?? '';
+        els.category.value = state.category ?? '';
+        els.brand.value = state.brand ?? '';
+        els.condition.value = state.condition ?? '';
+        els.sort.value = state.sort ?? 'priceAsc';
+      }
 
-    els.modal.addEventListener('click', (e)=>{ if (e.target.hasAttribute('data-close')) closeModal(); });
-    window.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closeModal(); });
+      function saveToURL() {
+        const f = getFilters();
+        const params = new URLSearchParams();
+        if (f.q) params.set('q', f.q);
+        if (f.category) params.set('cat', f.category);
+        if (f.brand) params.set('brand', f.brand);
+        if (f.condition) params.set('cond', f.condition);
+        if (f.sort && f.sort !== 'priceAsc') params.set('sort', f.sort);
+        const newHash = params.toString();
+        history.replaceState(null, '', newHash ? '#' + newHash : location.pathname + location.search);
+      }
 
-    // Init
-    loadProducts();
-  </script>
-</body>
+      function applyFromURL() {
+        const hash = location.hash.startsWith('#') ? location.hash.slice(1) : '';
+        const params = new URLSearchParams(hash);
+        setFilters({
+          q: params.get('q') || '',
+          category: params.get('cat') || '',
+          brand: params.get('brand') || '',
+          condition: params.get('cond') || '',
+          sort: params.get('sort') || 'priceAsc',
+        });
+      }
+
+      function filterAndSort(items) {
+        const f = getFilters();
+        let out = items.filter(p => {
+          const term = f.q;
+          const matchesTerm = !term || [p.title, p.brand, p.category].some(x => (x||'').toLowerCase().includes(term));
+          const matchesCat = !f.category || p.category === f.category;
+          const matchesBrand = !f.brand || p.brand === f.brand;
+          const matchesCond = !f.condition || p.condition === f.condition;
+          return matchesTerm && matchesCat && matchesBrand && matchesCond;
+        });
+        switch (f.sort) {
+          case 'priceAsc': out.sort((a,b)=>a.price-b.price); break;
+          case 'priceDesc': out.sort((a,b)=>b.price-a.price); break;
+          case 'nameAsc': out.sort((a,b)=>a.title.localeCompare(b.title)); break;
+          case 'nameDesc': out.sort((a,b)=>b.title.localeCompare(a.title)); break;
+        }
+        return out;
+      }
+
+      function render() {
+        const filtered = filterAndSort(PRODUCTS);
+        saveToURL();
+        els.stats.textContent = `${filtered.length} item${filtered.length===1?'':'s'} shown`;
+        els.grid.innerHTML = '';
+        for (const p of filtered) {
+          els.grid.appendChild(renderCard(p));
+        }
+      }
+
+      function renderCard(p) {
+        const img = (p.images && p.images[0]) ? p.images[0] : 'https://placehold.co/600x400?text=No+Image';
+        const count = (p.images||[]).slice(0,2).length;
+        const el = document.createElement('article');
+        el.className = 'bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm flex flex-col';
+        el.innerHTML = `
+          <div class="aspect-[4/3] bg-stone-100 overflow-hidden">
+            <img src="${img}" alt="${escapeHtml(p.title)}" class="w-full h-full object-cover" loading="lazy"/>
+          </div>
+          <div class="p-4 flex-1 flex flex-col gap-2">
+            <h3 class="font-semibold leading-snug line-clamp-2">${escapeHtml(p.title)}</h3>
+            <div class="text-sm text-stone-600">${escapeHtml(p.brand || '')} • ${escapeHtml(p.category || '')}</div>
+            <div class="mt-auto flex items-center justify-between">
+              <div class="text-lg font-bold">$${p.price.toFixed(2)}</div>
+              <span class="text-xs px-2 py-1 rounded-full border border-stone-300">${escapeHtml(p.condition || '—')}</span>
+            </div>
+            <div class="flex gap-2 mt-2">
+              <button class="px-3 py-1.5 rounded-lg border border-stone-300 hover:bg-stone-100" data-photos>Photos (${count})</button>
+              <a class="px-3 py-1.5 rounded-lg bg-stone-900 text-white hover:bg-stone-800" href="#" aria-label="Buy ${escapeHtml(p.title)}">Buy</a>
+            </div>
+          </div>`;
+
+        const btn = el.querySelector('[data-photos]');
+        btn.addEventListener('click', () => openModal(p));
+        el.querySelector('img').addEventListener('click', () => openModal(p));
+        return el;
+      }
+
+      function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
+
+      function openModal(product) {
+        document.body.classList.add('modal-open');
+        els.modal.classList.remove('hidden');
+        const imgs = (product.images || []).slice(0,2);
+        if (!imgs.length) {
+          els.modalImages.innerHTML = '<div class="p-6 text-center">No images</div>';
+        } else {
+          els.modalImages.innerHTML = `
+            <div class="relative w-full h-full">
+              <div class="w-full h-full"><img id="modalImg" src="${imgs[0]}" alt="${escapeHtml(product.title)}" class="w-full h-full object-contain"/></div>
+              ${imgs.length>1 ? '<button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-2 rounded-lg bg-white/90 border border-stone-200">Next</button>' : ''}
+            </div>`;
+          if (imgs.length>1) {
+            let idx = 0;
+            const imgEl = document.getElementById('modalImg');
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.addEventListener('click', () => { idx = (idx+1)%imgs.length; imgEl.src = imgs[idx]; nextBtn.textContent = (idx === imgs.length-1) ? 'First' : 'Next'; });
+          }
+        }
+        els.modalCaption.textContent = product.title;
+      }
+
+      function closeModal(){
+        els.modal.classList.add('hidden');
+        document.body.classList.remove('modal-open');
+      }
+
+      // Events
+      const debounced = (fn, ms=250) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); } };
+      els.search.addEventListener('input', debounced(render, 200));
+      els.category.addEventListener('change', render);
+      els.brand.addEventListener('change', render);
+      els.condition.addEventListener('change', render);
+      els.sort.addEventListener('change', render);
+      els.resetBtn.addEventListener('click', () => { setFilters({}); render(); });
+
+      els.modal.addEventListener('click', (e)=>{ if (e.target.hasAttribute('data-close')) closeModal(); });
+      window.addEventListener('keydown', (e)=>{ if (e.key==='Escape') closeModal(); });
+
+      // Init
+      loadProducts();
+    </script>
+  </body>
 </html>
