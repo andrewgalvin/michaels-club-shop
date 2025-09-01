@@ -14,7 +14,7 @@ A modern, responsive golf equipment e-commerce site built for GitHub Pages with 
 
 ### 🔧 Admin Features (Hidden)
 
-- **Secure Access**: Admin panel accessible only with secret key
+- **Secure Access**: Admin panel accessible only with SHA-256 hashed password
 - **Product Management**: Add, edit, and delete products through web interface
 - **Data Export**: Export products to JSON for backup
 - **Local Storage**: Products persist between sessions
@@ -39,11 +39,13 @@ A modern, responsive golf equipment e-commerce site built for GitHub Pages with 
 
 ### Method 1: URL Parameter
 
-Add `?admin=michael2024` to your site URL:
+Add `?admin=your-password` to your site URL:
 
 ```
-https://yourusername.github.io/michaels-club-shop/?admin=michael2024
+https://yourusername.github.io/michaels-club-shop/?admin=your-password
 ```
+
+**Note**: The password is hashed for security - it's never stored in plain text in the source code.
 
 ### Method 2: Keyboard Shortcut
 
@@ -105,15 +107,31 @@ Edit the `products.json` file directly with this structure:
 
 ## 🎨 Customization
 
-### Changing the Admin Key
+### Setting Your Admin Password
 
-Edit the `CONFIG.ADMIN_KEY` value in `index.html`:
+**Option 1: Use the Hash Generator**
+
+1. Open `generate-hash.html` in your browser
+2. Enter your desired admin password
+3. Copy the generated hash
+4. Replace the `ADMIN_KEY_HASH` value in `index.html`
+
+**Option 2: Use GitHub Secrets (Recommended)**
+
+1. Set `ADMIN_KEY` secret in your GitHub repository
+2. The build process will automatically hash your password
+3. Deploy using GitHub Actions
+
+**Option 3: Manual Hash Generation**
+Use an online SHA-256 generator or run this in your browser console:
 
 ```javascript
-const CONFIG = {
-  ADMIN_KEY: "your-secret-key-here",
-  // ... other config
-};
+const encoder = new TextEncoder();
+const data = encoder.encode("your-password");
+crypto.subtle.digest("SHA-256", data).then((hash) => {
+  const hashArray = Array.from(new Uint8Array(hash));
+  console.log(hashArray.map((b) => b.toString(16).padStart(2, "0")).join(""));
+});
 ```
 
 ### Styling

@@ -1,0 +1,16 @@
+{
+  "name": "michaels-club-shop",
+  "version": "1.0.0",
+  "description": "Premium Golf Equipment Shop",
+  "scripts": {
+    "build": "node build.js",
+    "deploy": "npm run build && echo 'Build completed'"
+  },
+  "keywords": [
+    "golf",
+    "ecommerce",
+    "shop"
+  ],
+  "author": "Michael",
+  "license": "MIT"
+}

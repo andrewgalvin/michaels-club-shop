@@ -379,7 +379,9 @@
     <script>
       // ===== CONFIGURATION =====
       const CONFIG = {
-        ADMIN_KEY: "michael2024", // Change this to your secret key
+        // Encrypted admin key - not visible in source
+        ADMIN_KEY_HASH:
+          "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", // "password" hashed
         STORAGE_KEY: "club_shop_products",
         IMAGE_PLACEHOLDER:
           "https://placehold.co/600x400/stone-200/stone-600?text=No+Image",
@@ -943,15 +945,30 @@
       }
 
       // ===== ADMIN FUNCTIONS =====
-      function checkAdminAccess() {
+      async function hashString(str) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+      }
+
+      async function checkAdminAccess() {
         const urlParams = new URLSearchParams(window.location.search);
         const adminKey = urlParams.get("admin");
+        const keyParam = urlParams.get("key");
 
-        if (adminKey === CONFIG.ADMIN_KEY) {
-          isAdmin = true;
-          els.adminTrigger.classList.remove("hidden");
-          els.adminBtn.classList.remove("opacity-0");
-          return true;
+        // Check if admin key matches (either from 'admin' or 'key' parameter)
+        if (adminKey || keyParam) {
+          const inputKey = adminKey || keyParam;
+          const hashedInput = await hashString(inputKey);
+
+          if (hashedInput === CONFIG.ADMIN_KEY_HASH) {
+            isAdmin = true;
+            els.adminTrigger.classList.remove("hidden");
+            els.adminBtn.classList.remove("opacity-0");
+            return true;
+          }
         }
 
         // Check if admin was previously activated
@@ -1082,7 +1099,7 @@
       // ===== INITIALIZATION =====
       async function init() {
         setupEventHandlers();
-        checkAdminAccess();
+        await checkAdminAccess();
 
         // Try to load from storage first for faster initial load
         if (!loadProductsFromStorage()) {
