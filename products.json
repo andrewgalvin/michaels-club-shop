@@ -1,0 +1,124 @@
+[
+  {
+    "id": "1703123456789_abc123",
+    "title": "TaylorMade Stealth Driver 10.5°",
+    "brand": "TaylorMade",
+    "category": "Driver",
+    "condition": "Like New",
+    "price": 389.99,
+    "images": [
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop"
+    ],
+    "description": "Carbon face, mid-high launch, adjustable loft. Features TaylorMade's revolutionary carbon face technology for maximum distance and forgiveness.",
+    "specs": {
+      "loft": "10.5°",
+      "flex": "Stiff",
+      "shaft": "Fujikura Ventus Red",
+      "length": "45.75\"",
+      "head_volume": "460cc"
+    },
+    "createdAt": "2024-01-15T10:30:00.000Z"
+  },
+  {
+    "id": "1703123456790_def456",
+    "title": "Callaway Apex 7-Iron (2021)",
+    "brand": "Callaway",
+    "category": "Iron",
+    "condition": "Good",
+    "price": 79.0,
+    "images": [
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop"
+    ],
+    "description": "Forged feel, great distance and control. The Apex irons provide exceptional feel and workability for the skilled golfer.",
+    "specs": {
+      "loft": "34°",
+      "flex": "Regular",
+      "material": "Forged Steel",
+      "lie_angle": "62.5°",
+      "length": "37.25\""
+    },
+    "createdAt": "2024-01-14T15:45:00.000Z"
+  },
+  {
+    "id": "1703123456791_ghi789",
+    "title": "Titleist Vokey SM9 Wedge 56°",
+    "brand": "Titleist",
+    "category": "Wedge",
+    "condition": "New",
+    "price": 159.0,
+    "images": [
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop"
+    ],
+    "description": "Classic spin with versatile grind. The SM9 wedges feature progressive CG technology for optimal spin and control.",
+    "specs": {
+      "loft": "56°",
+      "bounce": "10°",
+      "grind": "S Grind",
+      "finish": "Brushed Steel",
+      "length": "35.5\""
+    },
+    "createdAt": "2024-01-13T09:15:00.000Z"
+  },
+  {
+    "id": "1703123456792_jkl012",
+    "title": "Scotty Cameron Newport 2",
+    "brand": "Titleist",
+    "category": "Putter",
+    "condition": "Like New",
+    "price": 349.0,
+    "images": [
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop"
+    ],
+    "description": "Milled precision, soft feel. The Newport 2 is a classic blade putter with exceptional craftsmanship and feel.",
+    "specs": {
+      "head_weight": "350g",
+      "length": "34\"",
+      "lie_angle": "70°",
+      "loft": "3.5°",
+      "grip": "Pistolero"
+    },
+    "createdAt": "2024-01-12T14:20:00.000Z"
+  },
+  {
+    "id": "1703123456793_mno345",
+    "title": "Ping G430 3-Wood",
+    "brand": "Ping",
+    "category": "Fairway Wood",
+    "condition": "Good",
+    "price": 249.0,
+    "images": [
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop"
+    ],
+    "description": "Forgiving, fast, adjustable. The G430 fairway wood features Ping's innovative face technology for maximum distance.",
+    "specs": {
+      "loft": "15°",
+      "flex": "Regular",
+      "shaft": "Alta CB Black",
+      "length": "43.25\"",
+      "head_volume": "175cc"
+    },
+    "createdAt": "2024-01-11T11:30:00.000Z"
+  },
+  {
+    "id": "1703123456794_pqr678",
+    "title": "Cobra KING Utility Iron 3i",
+    "brand": "Cobra",
+    "category": "Utility",
+    "condition": "Fair",
+    "price": 119.0,
+    "images": [
+      "https://images.unsplash.com/photo-1593111774240-d529f12cf4bb?w=600&h=400&fit=crop"
+    ],
+    "description": "Hollow-body, hot face utility iron. Perfect for long approach shots and tee shots on tight holes.",
+    "specs": {
+      "loft": "19°",
+      "flex": "Stiff",
+      "shaft": "KBS Tour",
+      "length": "39.5\"",
+      "head_material": "Forged Steel"
+    },
+    "createdAt": "2024-01-10T16:45:00.000Z"
+  }
+]
